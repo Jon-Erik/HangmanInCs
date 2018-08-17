@@ -13,10 +13,18 @@ h1 {
     border: 2px solid black;
 }
 
-.textlabel {
-    padding: 15px;
+.messagelabeldiv {
+    border: 2px solid black;
 }
+
 /*
+.messagelabel {
+    font-family: 'Libre Franklin', sans-serif;
+    font-size: 20px;
+}
+
+
+
     font-family: 'Libre Baskerville', serif;
     font-family: 'Libre Franklin', sans-serif;
 */
