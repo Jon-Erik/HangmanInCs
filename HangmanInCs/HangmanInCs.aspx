@@ -70,7 +70,10 @@
                 </div>                                     
             </div>
             <div class="justify-content-center">
-                <asp:Button ID="StartResetButton" runat="server" Text="Start / Reset Word" OnClick="StartResetButton_Click" />
+                <asp:Button ID="StartResetButton" runat="server" Text="Start or Reset Word" OnClick="StartResetButton_Click" />
+                <br />
+                <br />
+                <asp:Label ID="TestLabel" runat="server" Text="TestLabel"></asp:Label>
             </div>
         </div>
     </form>   

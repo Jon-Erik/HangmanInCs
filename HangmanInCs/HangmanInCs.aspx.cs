@@ -10,15 +10,19 @@ namespace HangmanInCs
 {
     class Letter
     {
-        public string Character { get; set; }
+        public char Character { get; set; }
+        public bool Guessed { get; set; }
     }
 
     public partial class HangmanInCs : System.Web.UI.Page
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            messagelabel.Text = "Press any key to begin";
-            gameplaylabel.Text = "Let's get started!";
+            if (!IsPostBack)
+            {
+                messagelabel.Text = "Press any key to begin";
+                gameplaylabel.Text = "Let's get started!";
+            }           
         }
 
         private string[] computerOptions = { "VARIABLE", "PROGRAMMING", "APPLICATION", "ASSEMBLY", "INTELLISENSE",
@@ -30,16 +34,15 @@ namespace HangmanInCs
 
         private int remainingGuesses = 10;
 
-        private bool gameStarted = false;
+        public bool gameStarted = true;
 
         private bool winContent = false;
 
-        //private char[] currentWord = { };
-        List<Letter> currentWord = new List<Letter>();
+        private List<Letter> currentWord = new List<Letter>();
 
         private string lettersGuessed = "";
 
-        private string computerChoice = "";
+        private string computerChoice = "test";
 
         private int remainingLetters = 0;
 
@@ -47,10 +50,10 @@ namespace HangmanInCs
 
         private string winMessage = "You win! Press a button to play again.";
 
-        private void GamePlayInfo ()
+        private void DisplayGamePlayInfo ()
         {
             gameplaylabel.Text = "<p>Wins: " + wins + "</p>" +
-                "<p>Current Word: " + String.Join(" ", currentWord) + "</p>" +
+                "<p>Current Word: " + PrintCurrentWord() + "</p>" +
                 "<p>Remaining Guesses: " + remainingGuesses + "</p>" +
                 "<p>Letters Already Guessed: " + lettersGuessed + "</p>";
         }
@@ -64,35 +67,91 @@ namespace HangmanInCs
         }
 
         protected void Button_Click(object sender, EventArgs e)
-        {   
-            if (gameStarted)
+        {
+            string displayString = "";
+            foreach (Letter letter in currentWord)
+            {
+                displayString += letter.Character;
+            }
+            TestLabel.Text = displayString;
+
+            if (gameStarted == true)
             {
                 System.Web.UI.WebControls.Button button = sender as System.Web.UI.WebControls.Button;
                 string userGuess = button.ID;
-                gameplaylabel.Text = userGuess;
+                //TestLabel.Text = userGuess;
+                /*string displayString = "";
+
+                foreach (Letter letter in currentWord)
+                {
+                    displayString += letter.Character;
+                }
+
+                foreach (Letter letter in currentWord)
+                {
+
+                    if (letter.Character.ToString() == userGuess)
+                    {
+                        letter.Guessed = true;
+                        displayString += letter.Character.ToString();
+                    }                   
+                }
+                TestLabel.Text = displayString;  */            
             }
-            
+             
+            DisplayGamePlayInfo();           
         }
 
         protected void StartResetButton_Click(object sender, EventArgs e)
         {
             GetRandomWord();
-            CreateCurrentWordArray();
+            CreateCurrentWordList();
             remainingLetters = computerChoice.Length;
-            gameStarted = true;
-            GamePlayInfo();
+            DisplayGamePlayInfo();
+            ToggleGameStarted();
         }
 
-        private void CreateCurrentWordArray()
+        protected void ToggleGameStarted()
         {
-            string[] letterArray = computerChoice.Split();
-            for (int i = 0; i < letterArray.Length; i++)
+            if (gameStarted == false)
             {
-                string letter = letterArray[i];
-                Letter newLetter = new Letter();
-                currentWord.Add(newLetter);
+                gameStarted = true;
+            } else
+            {
+                gameStarted = false;
             }
         }
 
+        private void CreateCurrentWordList()
+        {
+            char[] letterArray = computerChoice.ToCharArray();
+            for (int i = 0; i < letterArray.Length; i++)
+            {
+                currentWord.Add(new Letter { Character = letterArray[i], Guessed = false });
+            }
+            /*string displayString = "";
+            foreach (Letter letter in currentWord)
+            {
+                displayString += letter.Character;
+            }
+            TestLabel.Text = displayString;*/
+        }
+
+        private string PrintCurrentWord()
+        {
+            string printedString = "";
+            foreach (Letter letter in currentWord)
+            {
+                if (letter.Guessed)
+                {
+                    printedString += letter.Character.ToString() + " ";
+                }
+                else
+                {
+                    printedString += "_ ";
+                }
+            }
+            return printedString;
+        }
     }
 }
