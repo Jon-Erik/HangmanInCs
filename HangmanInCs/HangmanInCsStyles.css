@@ -1,5 +1,6 @@
 ﻿body {
     padding: 20px;
+    background-color: #E8CCA8;
 }
 
 h1 {
@@ -13,18 +14,50 @@ h1 {
     border: 2px solid black;
 }
 
-.messagelabeldiv {
+.letter-button {
+    font-size: 17px;
+    margin: 2.5px;
+    color: white;
+    background-color: black;
     border: 2px solid black;
+    font-weight: bold;
+    font-family: 'Libre Baskerville', serif;
+}
+
+.letter-button:hover {
+    color: black;
+    background-color: white;
+}
+
+.gameplaylabel {
+    font-family: 'Libre Baskerville', serif;
+    font-size: 17px;
+    margin: 10px;
+}
+
+.messagelabel {
+    font-family: 'Libre Franklin', sans-serif;
+    font-weight: bold;
+    color: white;
+    background-color: darkslategray;
+    padding: 5px;
+}
+
+#StartResetButton, #newWordButton {
+    background-color: darkslategray;
+    color: white;
+    border: 2px solid darkslategray;
+    font-weight: bold;
+    font-family: 'Libre Franklin', sans-serif;
+    margin: 5px;
+}
+
+#StartResetButton:hover, #newWordButton:hover {
+    color: darkslategray;
+    background-color: white;
 }
 
 /*
-.messagelabel {
-    font-family: 'Libre Franklin', sans-serif;
-    font-size: 20px;
-}
-
-
-
     font-family: 'Libre Baskerville', serif;
     font-family: 'Libre Franklin', sans-serif;
 */

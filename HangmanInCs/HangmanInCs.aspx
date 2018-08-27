@@ -9,15 +9,9 @@
     <link href="HangmanInCsStyles.css" rel="stylesheet" type="text/css" />
     <link href="https://fonts.googleapis.com/css?family=Libre+Baskerville|Libre+Franklin" rel="stylesheet"/>
     <style type="text/css">
-        .messagelabel {
-            font-family: 'Libre Franklin', sans-serif;
-            font-size: 20px;
-        }
+       
 
-        .gameplaylabel {
-            font-family: 'Libre Baskerville', serif;
-            font-size: 20px;
-        }
+        
     </style>
 </head>
 <body class="container">
@@ -67,13 +61,15 @@
                         <asp:Button ID="Y" runat="server" OnClick="Button_Click" Text="Y" class="letter-button"/>
                         <asp:Button ID="Z" runat="server" OnClick="Button_Click" Text="Z" class="letter-button"/>
                     </div>
+                    <div class="row d-flex justify-content-center">
+                        <br />
+                        <br />
+                        <asp:Button ID="StartResetButton" runat="server" Text="Start or Reset" OnClick="StartResetButton_Click" autopostback="false"/>
+                        <br />
+                        <br />
+                        <asp:Button ID="newWordButton" runat="server" OnClick="newWordButton_Click" Text="Get New Word" />
+                    </div>
                 </div>                                     
-            </div>
-            <div class="justify-content-center">
-                <asp:Button ID="StartResetButton" runat="server" Text="Start or Reset" OnClick="StartResetButton_Click" autopostback="false"/>
-                <br />
-                <br />
-                <asp:Button ID="newWordButton" runat="server" OnClick="newWordButton_Click" Text="Get New Word" />
             </div>
         </div>
     </form>   

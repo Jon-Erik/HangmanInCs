@@ -20,7 +20,7 @@ namespace HangmanInCs
         {
             if (!IsPostBack)
             {
-                messagelabel.Text = "Press\"Start or Reset\" button to begin";
+                messagelabel.Text = "Click \"Start or Reset\" button to begin";
                 gameplaylabel.Text = "Let's get started!";
                 newWordButton.Visible = false;
             }           
