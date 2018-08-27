@@ -283,21 +283,12 @@ namespace HangmanInCs {
         protected global::System.Web.UI.WebControls.Button StartResetButton;
         
         /// <summary>
-        /// testbutton control.
+        /// newWordButton control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button testbutton;
-        
-        /// <summary>
-        /// TestLabel control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label TestLabel;
+        protected global::System.Web.UI.WebControls.Button newWordButton;
     }
 }

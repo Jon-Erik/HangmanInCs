@@ -20,12 +20,13 @@ namespace HangmanInCs
         {
             if (!IsPostBack)
             {
-                messagelabel.Text = "Press Start/reset button to begin";
+                messagelabel.Text = "Press\"Start or Reset\" button to begin";
                 gameplaylabel.Text = "Let's get started!";
+                newWordButton.Visible = false;
             }           
         }
 
-        private string[] computerOptions = { "VARIABLE", "PROGRAMMING", "APPLICATION", "ASSEMBLY", "INTELLISENSE",
+        private static string[] computerOptions = { "VARIABLE", "PROGRAMMING", "APPLICATION", "ASSEMBLY", "INTELLISENSE",
             "CSHARP", "DOCUMENT", "EXCEPTION", "CAMELCASE", "DATABASE", "SCHEMA", "SYSTEM" };
 
         private static int wins = 0;
@@ -40,21 +41,31 @@ namespace HangmanInCs
 
         private static List<Letter> lettersGuessed = new List<Letter>();
 
-        private string computerChoice = "test";
+        private static string computerChoice = "";
 
         private static int remainingLetters = 0;
 
-        private string winMessage = "<p>The word is:<p>" +
-                                    "<p>" + PrintCurrentWord() + "<p>" +
-                                    "<p>Total wins: " + wins.ToString() + "<p>" +
-                                    "<p>Press a button to play again<p>";
-
         private void DisplayGamePlayInfo ()
         {
-            gameplaylabel.Text = "<p>Wins: " + wins + "</p>" +
-                "<p>Current Word: " + PrintCurrentWord() + "</p>" +
-                "<p>Remaining Guesses: " + remainingGuesses + "</p>" +
-                "<p>Letters Already Guessed: " + PrintGuessedLetters() + "</p>";
+            if (remainingLetters == 0)
+            {
+                gameplaylabel.Text = "<p>The word is:</p>" +
+                                    "<p>" + PrintCurrentWord() + "</p>" +
+                                    "<p>Total wins: " + wins.ToString() + "</p>" +
+                                    "<p>Click the \"Get New Word\" button to continue playing</p>";
+            } else if (remainingGuesses == 0)
+            {
+                gameplaylabel.Text = "<p>Game over!</p>" +
+                                    "<p>Sorry, you're out of guesses.</p>" +
+                                    "<p>Total wins: " + wins.ToString() + "</p>" +
+                                    "<p>Press the reset button to play again</p>";
+            } else
+            {
+                gameplaylabel.Text = "<p>Wins: " + wins + "</p>" +
+                                "<p>Current Word: " + PrintCurrentWord() + "</p>" +
+                                "<p>Remaining Guesses: " + remainingGuesses + "</p>" +
+                                "<p>Letters Already Guessed: " + PrintGuessedLetters() + "</p>";
+            }           
         }
 
         private void GetRandomWord()
@@ -66,7 +77,6 @@ namespace HangmanInCs
 
         protected void Button_Click(object sender, EventArgs e)
         {           
-
             if (gameStarted == true)
             {
                 System.Web.UI.WebControls.Button button = sender as System.Web.UI.WebControls.Button;
@@ -95,16 +105,16 @@ namespace HangmanInCs
                             correctGuess = true;
                             messagelabel.Text = "Correct Guess!";
                             remainingLetters--;
-
-                            if (remainingLetters == 0)
-                            {
-                                wins++;
-                                letter.Guessed = true;
-                                gameStarted = false;
-                                messagelabel.Text = "You win! Press a button to play again!";
-                                completedWord = true;
-                            }
                         }
+                    }
+
+                    if (remainingLetters == 0)
+                    {
+                        wins++;
+                        gameStarted = false;
+                        messagelabel.Text = "You win!";
+                        completedWord = true;
+                        newWordButton.Visible = true;
                     }
 
                     if (correctGuess == false)
@@ -113,41 +123,23 @@ namespace HangmanInCs
                         remainingGuesses--;
                     }
 
+                    if (remainingGuesses == 0)
+                    {
+                        gameStarted = false;
+                    }
+
                     lettersGuessed.Add(new Letter { Character = guessedLetter, Guessed = false });
                     DisplayGamePlayInfo();
-
-                    if (completedWord == true)
-                    {
-                        gameplaylabel.Text = winMessage;
-                    }
                 } 
             }            
         }
 
         protected void StartResetButton_Click(object sender, EventArgs e)
         {
-            currentWord.Clear();
-            lettersGuessed.Clear();
-            wins = 0;
             remainingGuesses = 10;
-
-            GetRandomWord();
-            CreateCurrentWordList();
-            remainingLetters = computerChoice.Length;
-            DisplayGamePlayInfo();
-            ToggleGameStarted();
+            wins = 0;
             messagelabel.Text = "To start playing, click a letter to make a guess!";
-        }
-
-        protected void ToggleGameStarted()
-        {
-            if (gameStarted == false)
-            {
-                gameStarted = true;
-            } else
-            {
-                gameStarted = false;
-            }
+            GetNewWord();
         }
 
         protected void CreateCurrentWordList()
@@ -157,8 +149,6 @@ namespace HangmanInCs
             {
                 currentWord.Add(new Letter { Character = letterArray[i], Guessed = false });
             }
-            string displayString = PrintCurrentWord();
-            TestLabel.Text = displayString;
         }
 
         protected static string PrintCurrentWord()
@@ -183,15 +173,26 @@ namespace HangmanInCs
             string printedString = "";
             foreach (Letter letter in lettersGuessed)
             {
-                printedString += letter.Character.ToString().ToLower();
+                printedString += letter.Character.ToString().ToLower() + " ";
             }
             return printedString;
         }
 
-        protected void testbutton_Click(object sender, EventArgs e)
+        protected void GetNewWord()
         {
-            string displayString = PrintCurrentWord();
-            TestLabel.Text = displayString;
+            currentWord.Clear();
+            lettersGuessed.Clear();
+            GetRandomWord();
+            CreateCurrentWordList();
+            remainingLetters = computerChoice.Length;
+            DisplayGamePlayInfo();
+            gameStarted = true;
+            newWordButton.Visible = false;
+        }
+
+        protected void newWordButton_Click(object sender, EventArgs e)
+        {
+            GetNewWord();
         }
     }
 }
